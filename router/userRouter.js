@@ -1,8 +1,9 @@
 import express from "express";
-import {signUp,signIn} from '../controller/userAuth.js'
+import {signUp,signIn,confirmation} from '../controller/userAuth.js'
 
 const router = express.Router()
 
+router.post('/confirmation',confirmation )
 router.post('/Up',signUp )
 router.post('/In',signIn )
 
