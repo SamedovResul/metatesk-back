@@ -25,7 +25,7 @@ app.get("/get", (req,res) =>{
 })
 
 app.post('/post', (req, res) =>{
-  const { nameSurname,Country,email } = req.body
+  const { nameSurname,Country,email,date } = req.body
   console.log(req.body)
   let transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -48,9 +48,10 @@ app.post('/post', (req, res) =>{
       text: 'Hello world?', // plain text body
       html: `
       <ul>
-        <li> name surname: ${nameSurname}</li>
-        <li> email: ${email}</li>
-        <li> Country: ${Country}</li>
+        <li> <b> NAME SURNAME</b> : ${nameSurname}</li>
+        <li> <b> EMAIL</b> : ${email}</li>
+        <li> <b> COUNTRY </b> : ${Country}</li>
+        <li> <b> DATE </b> : ${date}</li>
       </ul>
       ` // html body
   };
