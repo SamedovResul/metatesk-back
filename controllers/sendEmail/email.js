@@ -23,7 +23,7 @@ export const sendMail = (req, res) =>{
 //   // setup email data with unicode symbols
   let mailOptions = {
       from: '"Metatesk Contact :" <enteskedu2020@gmail.com>', // sender address
-      to:  'samedovrasul7@gmail.com', // list of receivers 'contact@enteskedu.com'
+      to:  'contact@enteskedu.com', // list of receivers 'contact@enteskedu.com'
       subject: 'Metatesk', // Subject line
       text: 'Hello world?', // plain text body
       html: `
