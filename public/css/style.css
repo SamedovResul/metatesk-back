@@ -1,0 +1,65 @@
+body{
+  margin: 0px;
+  padding: 0px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login-component{
+  width: 100%;
+}
+
+.loginsection{
+  margin: auto;
+  width: 50%;
+  height: 50%;
+}
+
+.loginsection form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loginsection 
+form
+input{
+  margin: 10px;
+  width: 50%;
+  padding: 8px;
+}
+
+.loginsection 
+form
+button{
+  padding: 5px 10px;
+}
+
+/* .student-component{
+  display: none;
+} */
+
+.student-component
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+
+.student-component
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+
+.student-component
+tr:nth-child(even) {
+  background-color: #dddddd;
+}

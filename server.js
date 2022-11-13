@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors'
+import hbs from 'hbs'
 import blogRouter from './routers/blogRouter.js'
 import adminRouter from './routers/adminRouter.js'
 import student from './routers/student.js';
@@ -25,6 +26,28 @@ app.use(cors())
 
 app.use(express.json({limit: "30mb", extended: true}));
 app.use(express.urlencoded({limit: "30mb", extended: true}));
+
+// Define paths for Express config
+const publicDirectoryPath = path.join(__dirname, './public')
+const viewsPath = path.join(__dirname, './templates/views')
+const partialsPath = path.join(__dirname, './templates/partials')
+
+// Setup handlebars engine and views location
+app.set('view engine', 'hbs')
+app.set('views', viewsPath)
+hbs.registerPartials(partialsPath)
+// Setup static directory to serve
+app.use(express.static(publicDirectoryPath))
+
+
+// handle Bars
+
+app.get('/index', (req,res) =>{
+  res.render( 'index', {
+    title:"login",
+  })
+})
+
 
 app.get("/get", (req,res) =>{
   res.json("hello world")

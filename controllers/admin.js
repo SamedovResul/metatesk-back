@@ -28,8 +28,7 @@ export const signin = async (req,res,next) =>{
 
     const token = jwt.sign({email: superAdmin.email, id: superAdmin._id}, secret, {expiresIn: "6h"})
 
-
-    res.status(200).json({superAdmin, token})
+    res.status(200).json({token,superAdmin})
 
     
   } catch (error) {

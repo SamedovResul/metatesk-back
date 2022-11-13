@@ -7,6 +7,17 @@ import {createCustomError } from '../errors/error.js';
 export const GetStudent = AsyncWrapper(async (req,res,next) =>{
   const student = await Student.find()
   res.status(201).json(student)
+    console.log(student)
+    // const {nameSurname,Country,email,date,whatsAppNumber,time,state} = student[0]
+    // res.render( 'student', {
+    //   nameSurname,
+    //   Country,
+    //   email,
+    //   date,
+    //   time,
+    //   state,
+    //   whatsAppNumber,
+    // })
 })
 
 

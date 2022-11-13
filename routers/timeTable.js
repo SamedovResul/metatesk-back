@@ -14,7 +14,7 @@ router.get('/',Auth, getTimetable);
 router.post('/',Auth,createTimetable);
 router.patch('/:id',Auth,UpdateTimetable);
 router.patch('/state/:id', Auth,confirm);
-router.get('/search',  getTimetableBySearch);
+router.get('/search',Auth,  getTimetableBySearch);
 
 
 

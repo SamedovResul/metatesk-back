@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js js,hbs -e"
   },
   "keywords": [
     "example",
@@ -20,6 +20,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-async-errors": "^3.1.1",
+    "hbs": "^4.2.0",
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.2",

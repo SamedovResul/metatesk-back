@@ -1,24 +1,43 @@
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
+import StudentSchema from '../../models/student.js'
+
 
 dotenv.config();
 
-export const sendMail = (req, res) =>{
+export const sendMail = async (req, res) =>{
   try {
-    const { nameSurname,Country,email,date } = req.body
-  console.log(req.body)
-  let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-        user: process.env.EMAIL, // generated ethereal user
-        pass: process.env.PASS  // generated ethereal password
-    },
-    tls:{
-      rejectUnauthorized:false
-    }
-  });
+    
+    const { nameSurname,Country,email,date,whatsAppNumber,time } = req.body
+
+    // setTimeout( async () => {
+
+    //   const student = new StudentSchema({
+    //     nameSurname,
+    //     Country,
+    //     email,
+    //     date,
+    //     time
+    //   })
+  
+    //   await student.save()
+    //   console.log(student)
+    // }, 2000);
+
+    
+
+    let transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+          user: process.env.EMAIL, // generated ethereal user
+          pass: process.env.PASS  // generated ethereal password
+      },
+      tls:{
+        rejectUnauthorized:false
+      }
+    });
 
 //   // setup email data with unicode symbols
   let mailOptions = {
@@ -31,7 +50,6 @@ export const sendMail = (req, res) =>{
         <li> <b> NAME SURNAME</b> : ${nameSurname}</li>
         <li> <b> EMAIL</b> : ${email}</li>
         <li> <b> COUNTRY </b> : ${Country}</li>
-        <li> <b> DATE </b> : ${date}</li>
       </ul>
       ` // html body
   };

@@ -4,15 +4,36 @@ import mongoose from 'mongoose';
 import {AsyncWrapper} from '../../middleware/AsyncWrapper.js'
 
 // get timetable
-export const TimeTable = AsyncWrapper(async(req,res,next) =>{
+export const TimeTable = AsyncWrapper(async(req,res) =>{
   const {id} = req.params
   const d = new Date();
   const year = d.getFullYear();
   const month = d.getMonth();
   const day = d.getDate();
-  const timeTable = await TimeTableSchema.find({"date":{"$gte": new Date(`${year}-0${month +1}-${day}`)}, "$and":[{teacher_Id:id }]})
-  console.log(timeTable)
+  const timeTable = await TimeTableSchema.find({"date":{"$gte": new Date(`${year}-0${month +1}-${day}`)}, "$and":[{teacher_Id:req.Id }]})
+  console.log()
   res.status(200).json(timeTable)
+})
+
+
+// search timetable
+
+export const SearchByTimetable = AsyncWrapper(async (req,res) =>{
+  const {startDate, endDate} = req.query; 
+
+  const queryObject = {}
+
+  queryObject.teacher_Id = new RegExp(req.Id, "i")
+  if(startDate && endDate){
+    queryObject.date = {"$gte": new Date(startDate),  "$lte": new Date(endDate)}
+  } else if(startDate) {
+    queryObject.date = {"$gte": new Date(startDate)}
+  } else if(endDate) {
+    queryObject.date = {"$lte": new Date(endDate)}
+  }
+  const timeTable = await TimeTableSchema.find(queryObject)
+  console.log(timeTable.length)
+  res.status(201).send(timeTable)
 })
 
 // add comment
