@@ -19,11 +19,17 @@ export const TimeTable = AsyncWrapper(async(req,res) =>{
 // search timetable
 
 export const SearchByTimetable = AsyncWrapper(async (req,res) =>{
-  const {startDate, endDate} = req.query; 
+  const {startDate, endDate,state} = req.query; 
 
   const queryObject = {}
 
   queryObject.teacher_Id = new RegExp(req.Id, "i")
+
+  if(0 === parseInt(state)){
+    queryObject.table_State = parseInt(state)
+  }
+  
+
   if(startDate && endDate){
     queryObject.date = {"$gte": new Date(startDate),  "$lte": new Date(endDate)}
   } else if(startDate) {
@@ -32,7 +38,7 @@ export const SearchByTimetable = AsyncWrapper(async (req,res) =>{
     queryObject.date = {"$lte": new Date(endDate)}
   }
   const timeTable = await TimeTableSchema.find(queryObject)
-  console.log(timeTable.length)
+  // console.log(queryObject)
   res.status(201).send(timeTable)
 })
 
@@ -40,15 +46,14 @@ export const SearchByTimetable = AsyncWrapper(async (req,res) =>{
 
 
 export const classComment = AsyncWrapper(async(req,res,next) =>{
-  const {id} = req.params
-  const {class_Comment} = req.body
-  console.log(class_Comment)
+  // const {id} = req.Id
+  const {id, comment} = req.body
   if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id:${id}`)
-  
-  const addComment = {class_Comment}
+  // console.log(req)
+  const addComment = {class_Comment: comment }
 
   await TimeTableSchema.findByIdAndUpdate(id, addComment,{new:true});
   const table = await TimeTableSchema.findOne({_id:id })
-
+  console.log(table)
   res.json(table)
 })

@@ -9,7 +9,7 @@ const timeTable = mongoose.Schema({
   class_Id:String,
   class_Comment:{
     type:String,
-    default:"nun"
+    default:" qeyd yoxdur "
   },
   table_State:{
     type:Number,
