@@ -27,6 +27,8 @@ export const SearchByTimetable = AsyncWrapper(async (req,res) =>{
 
   if(0 === parseInt(state)){
     queryObject.table_State = parseInt(state)
+  }else{
+    queryObject.table_State = {"$gte": 1,  "$lte": 2}
   }
   
 
@@ -38,7 +40,7 @@ export const SearchByTimetable = AsyncWrapper(async (req,res) =>{
     queryObject.date = {"$lte": new Date(endDate)}
   }
   const timeTable = await TimeTableSchema.find(queryObject)
-  // console.log(queryObject)
+  console.log(timeTable)
   res.status(201).send(timeTable)
 })
 
