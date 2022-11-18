@@ -24,10 +24,9 @@ export const GetStudent = AsyncWrapper(async (req,res,next) =>{
 // create student
 
 export const CreateStudent = AsyncWrapper( async (req,res,next) =>{
-  const {firstName, secondName,  age, status} = req.body;
-  
+  const {name, secondName,  age, status} = req.body;
     const student = new Student({
-      firstName:firstName,
+      name:name,
       secondName:secondName,
       age:age,
       status:status

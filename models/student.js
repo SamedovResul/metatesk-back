@@ -7,9 +7,7 @@ const Student = mongoose.Schema({
   // Country:{
   //   type:String
   // },
-  firstName:{
-    type:String
-  },
+  name: { type: String, required:  true },
   secondName:{
     type:String
   },
