@@ -11,7 +11,7 @@ export const TimeTable = AsyncWrapper(async(req,res) =>{
   const month = d.getMonth();
   const day = d.getDate();
   const timeTable = await TimeTableSchema.find({"date":{"$gte": new Date(`${year}-0${month +1}-${day}`)}, "$and":[{teacher_Id:req.Id }]})
-  console.log()
+  // console.log()
   res.status(200).json(timeTable)
 })
 
@@ -40,10 +40,8 @@ export const SearchByTimetable = AsyncWrapper(async (req,res) =>{
     queryObject.date = {"$lte": new Date(endDate)}
   }
   const timeTable = await TimeTableSchema.find(queryObject)
-  console.log(timeTable)
   res.status(201).send(timeTable)
 })
-
 // add comment
 
 
@@ -56,6 +54,6 @@ export const classComment = AsyncWrapper(async(req,res,next) =>{
 
   await TimeTableSchema.findByIdAndUpdate(id, addComment,{new:true});
   const table = await TimeTableSchema.findOne({_id:id })
-  console.log(table)
+  // console.log(table)
   res.json(table)
 })

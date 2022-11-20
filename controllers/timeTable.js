@@ -2,6 +2,7 @@ import TimeTable from '../models/timeTable.js';
 import mongoose from 'mongoose';
 import {AsyncWrapper} from '../middleware/AsyncWrapper.js';
 import {createCustomError } from '../errors/error.js';
+import { teacherEmail } from './sendEmail/teacherEmail.js';
 // get active timatable
 
 export const getTimetable  = AsyncWrapper(async(req,res,next) =>{
@@ -39,7 +40,19 @@ export const getTimetableBySearch = AsyncWrapper(async(req,res,next) =>{
 // create timetable for both student and teacher 
 
 export const createTimetable = AsyncWrapper(async(req,res,next) =>{
-  const {
+  let timeTable
+  const Array = []
+  req.body.map((data) =>{
+    const {
+          student_Name,
+          student_Id,
+          teacher_Name,
+          teacher_Id,
+          class_Name,
+          class_Id,
+          date
+        } = data
+       timeTable = new TimeTable({
         student_Name,
         student_Id,
         teacher_Name,
@@ -47,21 +60,18 @@ export const createTimetable = AsyncWrapper(async(req,res,next) =>{
         class_Name,
         class_Id,
         date
-      } = req.body
+      }) 
+        Array.push(data)
+        const saveArray = async() =>{
+          await timeTable.save()
+        }
+        saveArray()
+  })
 
-      const timeTable = new TimeTable({
-        student_Name:student_Name,
-        student_Id:student_Id,
-        teacher_Name:teacher_Name,
-        teacher_Id:teacher_Id,
-        class_Name:class_Name,
-        class_Id:class_Id,
-        date:date
-      })
-        
-      await timeTable.save()
-  
-      res.status(201).json(timeTable)
+  setTimeout(() => {
+    res.status(201).json(Array)
+    teacherEmail(Array)
+  }, 3000);
 })
 
 
