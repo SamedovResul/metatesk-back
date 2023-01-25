@@ -2,7 +2,9 @@ import mongoose from "mongoose"
 
 const Class = mongoose.Schema({
   name:String,
-  content:String,
+  class_Category:{
+    type:Array,
+  },
   createdAt: {
     type: Date,
     default: new Date(),

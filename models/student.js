@@ -1,35 +1,40 @@
+
+
 import mongoose from "mongoose"
 
 const Student = mongoose.Schema({
-  // nameSurname:{
-  //   type:String
-  // },
-  // Country:{
-  //   type:String
-  // },
-  name: { type: String, required:  true },
-  secondName:{
-    type:String
+  name: { 
+    type: String, 
+    // required:true 
+  },
+  SecondName:{
+    type:String,
+    // required:true
   },
   age:{
-    type:String
+    type:String,
+    // required:true
   },
-  // email:{
-  //   type:String
-  // },
-  // date:{
-  //   type:String
-  // },
-  // time:{
-  //   type:String
-  // },
+  ParentName:{
+    type:String,
+    // required:true
+  },
+  PhoneNumber:{
+    type:Number,
+    // required:true
+  },
+  Email:{
+    type:String,
+    // required:true
+  },
+  ClassAmount:{
+    type:Number,
+    // required:true
+  },
   status:{
-    type:Boolean,
-    default:false
+    type:Number,
+    // default:false
   },
-  // whatsAppNumber:{
-  //   type:String
-  // },
   createdAt: {
     type: Date,
     default: new Date(),

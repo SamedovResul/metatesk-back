@@ -10,6 +10,7 @@ export const teacherEmail = (data) =>{
       const {student_Name,class_Name,date,teacher_Email
       } = table
       email = teacher_Email
+      console.log(teacher_Email)
       const d = new Date(date);
 
       const dates = d.getDate();
@@ -42,7 +43,8 @@ export const teacherEmail = (data) =>{
       ${li}
     </ul>
     `
-    console.log(ul)
+
+
     let transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,

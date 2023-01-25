@@ -7,6 +7,7 @@ const Teacher = mongoose.Schema({
   status:{type:Number, required: true},
   id: { type: String },
   role:{type:Number, required: true, default:0},
+  salary:{type:Number, required: true, default:0},
   createdAt: {
     type: Date,
     default: new Date(),

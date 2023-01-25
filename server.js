@@ -10,6 +10,7 @@ import classes  from './routers/Class.js';
 import timeTable from './routers/timeTable.js';
 import Teacher from './routers/teacherRouter/teacher.js';
 import Email from './routers/email/email.js'
+import calendar from './routers/calendar.js'
 import {errorHandlerMiddleware} from './middleware/error-handler.js';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -62,12 +63,11 @@ app.use('/student', student)
 app.use('/timeTable', timeTable)
 app.use('/teacher', Teacher)
 app.use('/email' , Email)
+app.use('/calendar', calendar)
 app.use(errorHandlerMiddleware);
 app.get('/', (req,res) =>{
   res.send("hello world")
 })
-// const CONNECTION_URL = "mongodb+srv://Rasul:resul1418@cluster0.kihs8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-
 
 
 

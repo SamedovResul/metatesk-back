@@ -6,6 +6,9 @@ const timeTable = mongoose.Schema({
   teacher_Name: String,
   teacher_Id: String,
   class_Name: String,
+  category_name:{
+    type:String
+  },
   class_Id:String,
   class_Comment:{
     type:String,

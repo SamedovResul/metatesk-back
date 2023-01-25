@@ -1,4 +1,5 @@
 import TimeTable from '../models/timeTable.js';
+import Teacher from '../models/Teacher.js'
 import mongoose from 'mongoose';
 import {AsyncWrapper} from '../middleware/AsyncWrapper.js';
 import {createCustomError } from '../errors/error.js';
@@ -16,14 +17,19 @@ export const getTimetable  = AsyncWrapper(async(req,res,next) =>{
 // get bySearch timetable
 
 export const getTimetableBySearch = AsyncWrapper(async(req,res,next) =>{
-  const {startDate, endDate,teacher_Name,student_Name} = req.query; 
+  const {startDate, endDate,teacher_Id,student_Name,table_State} = req.query; 
   const queryObject = {}
-  if(teacher_Name){
-    queryObject.teacher_Name = new RegExp(teacher_Name, "i")
+  if(teacher_Id){
+    queryObject.teacher_Id = new RegExp(teacher_Id, "i")
   }
   if(student_Name){
     queryObject.student_Name = new RegExp(student_Name, "i")
   }
+  if(table_State){
+    queryObject.table_State = parseInt(table_State)
+  }
+
+  
   if(startDate && endDate){
     queryObject.date = {"$gte": new Date(startDate),  "$lte": new Date(endDate)}
   } else if(startDate) {
@@ -31,9 +37,28 @@ export const getTimetableBySearch = AsyncWrapper(async(req,res,next) =>{
   } else if(endDate) {
     queryObject.date = {"$lte": new Date(endDate)}
   }
-  const table = await TimeTable.find(queryObject)
-  if (!table[0])return next(createCustomError(`not found any table`, 400)); 
-  res.status(201).json(table)
+
+  const table = await TimeTable.find(queryObject) || []
+  
+
+
+
+  const confirmedClass = table?.filter((data) => data.table_State === 1  ) || []
+  const cancelClass = table?.filter((data) => data.table_State === 2  ) || []
+  let salary 
+  if(teacher_Id){
+    const teacher = await Teacher.findById({_id:teacher_Id}) 
+    salary = teacher.salary * confirmedClass.length
+  }else{
+    salary = 0
+  }
+  const teacherData = {
+    confirmedClass:confirmedClass.length,
+    cancelClass:cancelClass.length, 
+    salary: salary.toFixed(2) 
+  }
+  
+  res.status(201).json({teacherData:teacherData, table:table})
 
 })
 
@@ -50,7 +75,8 @@ export const createTimetable = AsyncWrapper(async(req,res,next) =>{
           teacher_Id,
           class_Name,
           class_Id,
-          date
+          date,
+          category_name,
         } = data
        timeTable = new TimeTable({
         student_Name,
@@ -58,8 +84,10 @@ export const createTimetable = AsyncWrapper(async(req,res,next) =>{
         teacher_Name,
         teacher_Id,
         class_Name,
+        category_name,
         class_Id,
-        date
+        date,
+        category_name
       }) 
         Array.push(data)
         const saveArray = async() =>{
@@ -87,7 +115,9 @@ export const UpdateTimetable = AsyncWrapper(async(req,res,next) =>{
       teacher_Id,
       class_Name,
       class_Id,
-      date
+      date,
+      category_name,
+      table_State
     } = req.body
   
       if(!mongoose.Types.ObjectId.isValid(id)) return next(createCustomError(`No post with id:${id}`, 404));
@@ -100,6 +130,8 @@ export const UpdateTimetable = AsyncWrapper(async(req,res,next) =>{
         class_Name,
         class_Id,
         date,
+        category_name,
+        table_State,
         _id: id
       }
   
