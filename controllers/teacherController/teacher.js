@@ -66,6 +66,7 @@ export const SearchByTimetable = AsyncWrapper(async (req,res) =>{
 
 
   const countTable = await Timetable.countDocuments(queryObject)
+  console.log(countTable)
   res.status(201).send({tables:timeTable, count:countTable})
 })
 // add comment

@@ -67,10 +67,10 @@ export const getTimetableBySearch = AsyncWrapper(async(req,res,next) =>{
 export const createTimetable = AsyncWrapper(async(req,res,next) =>{
   let timeTable
   const Array = []
+  const ArrayForUser = []
   req.body.map((data) =>{
     const {
-          student_Name,
-          student_Id,
+          StudentsArray,
           teacher_Name,
           teacher_Id,
           class_Name,
@@ -78,9 +78,14 @@ export const createTimetable = AsyncWrapper(async(req,res,next) =>{
           date,
           category_name,
         } = data
+
+        StudentsArray.map((data) =>{
+          const string = JSON.stringify(data)
+          return JSON.parse(string)
+        })
+        
        timeTable = new TimeTable({
-        student_Name,
-        student_Id,
+        StudentsArray,
         teacher_Name,
         teacher_Id,
         class_Name,
@@ -89,15 +94,19 @@ export const createTimetable = AsyncWrapper(async(req,res,next) =>{
         date,
         category_name
       }) 
+      console.log(StudentsArray)
+      console.log(timeTable)
         Array.push(data)
+        ArrayForUser.push(timeTable)
         const saveArray = async() =>{
           await timeTable.save()
         }
         saveArray()
   })
 
+  console.log(req.body)
   setTimeout(() => {
-    res.status(201).json(Array)
+    res.status(201).json(ArrayForUser)
     teacherEmail(Array)
   }, 3000);
 })
@@ -109,8 +118,7 @@ export const createTimetable = AsyncWrapper(async(req,res,next) =>{
 export const UpdateTimetable = AsyncWrapper(async(req,res,next) =>{
   const {id} = req.params
     const {
-      student_Name,
-      student_Id,
+      StudentsArray,
       teacher_Name,
       teacher_Id,
       class_Name,
@@ -120,11 +128,16 @@ export const UpdateTimetable = AsyncWrapper(async(req,res,next) =>{
       table_State
     } = req.body
   
+
+    // StudentsArray.map((data) =>{
+    //   const string = JSON.stringify(data)
+    //   return JSON.parse(string)
+    // })
+    console.log(StudentsArray)
       if(!mongoose.Types.ObjectId.isValid(id)) return next(createCustomError(`No post with id:${id}`, 404));
       
       const updateTimetable = {
-        student_Name,
-        student_Id,
+        StudentsArray,
         teacher_Name,
         teacher_Id,
         class_Name,

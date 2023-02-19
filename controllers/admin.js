@@ -5,8 +5,8 @@ import adminData from  '../models/adminData.js'
 import Teacher  from '../models/Teacher.js'
 import {createCustomError } from '../errors/error.js';
 
-const secret = "test"
 
+const secret = "test"
 
 export const signin = async (req,res,next) =>{
   const {email, password} = req.body
@@ -26,9 +26,18 @@ export const signin = async (req,res,next) =>{
      if (!isPasswordCorrect) return next(createCustomError("Invalid password",400));
 
 
-    const token = jwt.sign({email: superAdmin.email, id: superAdmin._id}, secret, {expiresIn: "6h"})
+    const token = jwt.sign({email: superAdmin.email, id: superAdmin._id}, secret, {expiresIn: "1h"})
 
-    res.status(200).json({token,superAdmin})
+
+    res.status(200).json({
+      token,
+      superAdmin:{
+        email: superAdmin.email,
+        name: superAdmin.name,
+        role: superAdmin.role,
+        _id: superAdmin._id
+      }
+    })
 
     
   } catch (error) {
