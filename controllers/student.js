@@ -33,25 +33,17 @@ export const GetStudent = AsyncWrapper(async (req,res,next) =>{
 
 export const CreateStudent = AsyncWrapper( async (req,res) =>{
   const {
-    name, 
-    SecondName,  
+    name,  
     age, 
     ParentName,
     PhoneNumber,
     Email,
     ClassAmount,
     status,
-    dateOne,
-    dateTwo,
-    timeOne,
-    timeTwo,
-    teacherName, 
-    teacherId,
   } = req.body;
   // console.log(req.body)
     const student = new Student({
       name:name,
-      SecondName:SecondName,
       age:age,
       ParentName:ParentName,
       PhoneNumber:PhoneNumber,
@@ -59,16 +51,6 @@ export const CreateStudent = AsyncWrapper( async (req,res) =>{
       ClassAmount:ClassAmount,
       status:status
     })
-    const calendarParams = {
-      teacherName, 
-      teacherId, 
-      dateOne, 
-      dateTwo,
-      studentId:student._id,
-      studentName:name,
-      timeOne,
-      timeTwo,
-     }
     await student.save();
     res.status(201).json(student);
 })
@@ -79,19 +61,20 @@ export const CreateStudent = AsyncWrapper( async (req,res) =>{
 export const UpdateStudent = AsyncWrapper(async (req,res,next) =>{
   const {id} = req.params;
 
-  const {name,
-  SecondName,
-  age,
-  ParentName,
-  PhoneNumber,
-  Email,
-  ClassAmount,
-  status} = req.body;
+  const {
+    name,
+    age,
+    ParentName,
+    PhoneNumber,
+    Email,
+    ClassAmount,
+    status
+  } = req.body;
 
   if(!mongoose.Types.ObjectId.isValid(id)) return next(createCustomError(`No post with id:${id}`,404));
 
-  let updateStudent = {name,
-    SecondName,
+  let updateStudent = {
+    name,
     age,
     ParentName,
     PhoneNumber,
@@ -100,7 +83,7 @@ export const UpdateStudent = AsyncWrapper(async (req,res,next) =>{
     status, _id:id};
 
   updateStudent = await Student.findByIdAndUpdate(id,updateStudent, {new:true} );
-  console.log(updateStudent)
+  // console.log(updateStudent)
   res.json(updateStudent);
 })
 

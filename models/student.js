@@ -3,13 +3,8 @@
 import mongoose from "mongoose"
 
 const Student = mongoose.Schema({
-  name: { 
-    type: String, 
-    // required:true 
-  },
-  SecondName:{
-    type:String,
-    // required:true
+  name:{
+    type:String
   },
   age:{
     type:String,
